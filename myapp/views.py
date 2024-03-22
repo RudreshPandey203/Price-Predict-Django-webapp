@@ -24,16 +24,47 @@ def index(request):
         print("Product Name:", product_name)
         print("Date:", date)
 
- 
+        # API CALL TO GET PRICE HISTORY
+        product_gtin = {
+            'dell laptop': '5711045220814',
+            'hp mouse': '0195908483175',
+            'sony headphones': '4905524731903',
+            'samsung galaxy s21': '8806090886713',
+            'apple macbook air': '0194252058503',
+            'microsoft surface pro': '0889842192940',
+            'black dress': '8804775088735',
+            'study table': '6900075928046',
+            'formal shirt': '7320545206747',
+            'casio fx': '4549526613029',
+            'pencil stand': '6953156278554',
+            'electric kettle': '5412810270316',
+            'smart watch': '4047443489012',
+            'first aid box': '7310802909009',
+            'extension cord': '4008297056973',
+            'realme charger': '8596311135736',
+            'nike shoes': '0196149620046'
+        }
+
+        # Function to look up GTIN based on product name
+        def get_gtin(product_name):
+            product_name = product_name.lower()
+            if product_name in product_gtin:
+                return product_gtin[product_name]
+            else:
+                return "6900075928046"
+            
+        gtincode = get_gtin(product_name)
+
+        print("GTIN Code:", gtincode)
 
         url = "https://product-price-history.p.rapidapi.com/price-history"
 
-        querystring = {"country_iso2":"nl","gtin":"0195908483175","last_x_months":"24"}
+        querystring = {"country_iso2":"nl","gtin":gtincode,"last_x_months":"24"}
 
         headers = {
-            "X-RapidAPI-Key": "d4d743c909msh724f9b0cd56c97cp180c3fjsne78028dc52f6",
-            "X-RapidAPI-Host": "product-price-history.p.rapidapi.com"
-        }
+            'X-RapidAPI-Key': 'ce0e549619msh13a1619e4132572p1965f6jsn5095b54e28d8',
+            'X-RapidAPI-Host': 'product-price-history.p.rapidapi.com'
+        } 
 
         response = requests.get(url, headers=headers, params=querystring)
 
